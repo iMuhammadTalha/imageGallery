@@ -9,7 +9,7 @@
             </div>
             <div class="pull-left info">
                 <p>Welcome</p>
-<!--                <p>--><?php //echo '' .$this->session->userdata('email').''; ?><!--</p>-->
+                <p><?php echo '' .$this->session->userdata('UserName').''; ?></p>
             </div>
         </div>
 

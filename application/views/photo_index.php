@@ -61,9 +61,25 @@
             </ol>
         </section>
 
+        <?php
+        $dataVolumeUsedTodays = $dataVolumeUsedToday;
+        $dataVolumeRemainingTodays = $dataVolumeRemainingToday;
+        $totalStorageUseds = $totalStorageUsed;
+        $totalStorageRemainings = $totalStorageRemaining;
+        ?>
 
+<!--        --><?php //echo 'Data Volume Used Today= '. $dataVolumeUsedToday; ?>
+<!--        --><?php //echo 'Data Volume Remaining Today= '.$dataVolumeRemainingToday; ?>
+<!--        --><?php //echo 'Total Data Storage Used= '.$totalStorageUsed; ?>
+<!--        --><?php //echo 'Total Data Storage Remaining= '.$totalStorageRemaining; ?>
 
-
+<!--        <div id="dom-target" style="display: none;">-->
+<!--            --><?php
+//            $output = $volumeUsed; // Again, do some operation, get the output.
+//            echo htmlspecialchars($output); /* You have to escape because the result
+//                                           will not be valid HTML otherwise. */
+//            ?>
+<!--        </div>-->
 
         <!-- Main content -->
         <section class="content">
@@ -80,7 +96,7 @@
                         <div class="box-header with-border">
                             <i class="fa fa-bar-chart-o"></i>
 
-                            <h3 class="box-title">Data Volume Used Today</h3>
+                            <h3 class="box-title">Total Storage	</h3>
 
                             <div class="box-tools pull-right">
                                 <!--                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>-->
@@ -88,7 +104,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <div id="volume-donut-chart" style="height: 300px;"></div>
+                            <div id="storage-donut-chart" style="height: 300px;"></div>
                         </div>
                         <!-- /.box-body-->
                     </div>
@@ -105,7 +121,7 @@
                         <div class="box-header with-border">
                             <i class="fa fa-bar-chart-o"></i>
 
-                            <h3 class="box-title">Storage Used Today</h3>
+                            <h3 class="box-title">Data Volume Used today</h3>
 
                             <div class="box-tools pull-right">
 <!--                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>-->
@@ -113,13 +129,45 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <div id="storage-donut-chart" style="height: 300px;"></div>
+                            <div id="volume-donut-chart" style="height: 300px;"></div>
                         </div>
                         <!-- /.box-body-->
                     </div>
                     <!-- /.box -->
                 </div>
                 <!-- /.col -->
+            </div>
+
+            <div class="row">
+                <div class="box box-primary">
+                    <table id="example1" class="table table-bordered table-striped ">
+                        <thead>
+                        <tr>
+
+                            <th>Total Storage</th>
+                            <th>Storage Used</th>
+                            <th>Storage Remaining</th>
+
+                            <th>Total Data Volume</th>
+                            <th>Data Volume Used today</th>
+                            <th>Data Volume Remaining for today</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr>
+                            <td>10</td>
+                            <td><?php echo $totalStorageUsed; ?></td>
+                            <td><?php echo $totalStorageRemaining; ?></td>
+
+                            <td>25</td>
+                            <td><?php echo $dataVolumeUsedToday; ?></td>
+                            <td><?php echo $dataVolumeRemainingToday; ?></td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <!-- /.row -->
         </section>
@@ -203,16 +251,18 @@
          * -----------
          */
 
-        var volumeUsedData = [
-            { label: 'Remaining', data: 30, color: '#3c8dbc' },
+        var num = <?php echo $dataVolumeRemainingTodays ?>;
 
-            { label: 'Used', data: 70, color: '#f56954' }
+        var volumeUsedData = [
+            { label: 'Remaining', data: <?php echo $dataVolumeRemainingTodays ?>, color: '#3c8dbc' },
+
+            { label: 'Used', data: <?php echo $dataVolumeUsedTodays ?>, color: '#f56954' }
         ]
 
         var storageUsedData = [
-            { label: 'Free', data: 30, color: '#3c8dbc' },
+            { label: 'Free', data: <?php echo $totalStorageRemainings ?>, color: '#3c8dbc' },
 
-            { label: 'Used', data: 70, color: '#f56954' }
+            { label: 'Used', data: <?php echo $totalStorageUseds ?>, color: '#f56954' }
         ]
         $.plot('#storage-donut-chart', storageUsedData, {
             series: {
