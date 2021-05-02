@@ -123,7 +123,9 @@
                         </tbody>
                     </table>
                     <?php if(!empty($gallery) && $gallery->num_rows() > 0){ ?>
-                        <a href="<?php echo base_url(); ?>index.php/photoController/deleteAllImages"" class="badge badge-danger">Delete All Images</a>
+<!--                        <a href="--><?php //echo base_url(); ?><!--index.php/photoController/deleteAllImages"" class="badge badge-danger">Delete All Images</a>-->
+                        <a href="<?php echo base_url(); ?>index.php/photoController/deleteAllImages"> <button class="btn btn-block btn-danger btn-xs"> Delete All Images</button> </a>
+
                     <?php } ?>
 
                 </div>
