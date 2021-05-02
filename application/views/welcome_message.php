@@ -577,7 +577,7 @@
                 <div class="col-lg-3 col-md-6 footer-newsletter">
                     <h4> Team</h4>
                     <p>
-                        Students of MS-IT batch 2k20 made this application. <br> Group students are: <br> Waqas Mustafa <br> Muhammad Talha <br> Aruba Kousar <br> Moazzam
+                        Students of MS-IT batch 2k20 made this application. <br> Group students are:  <br> Muhammad Talha <br> Waqas Mustafa <br> Aruba Kousar <br> Moazzam
                     </p>
 
                 </div>
