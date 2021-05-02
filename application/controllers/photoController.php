@@ -121,10 +121,10 @@ class photoController extends CI_Controller
         $this->load->model('photoModel');
         $fetch_data=$this->photoModel->userInfo($email);
 
-        $data['dataVolumeUsedToday']= round($fetch_data['data_used_today']/1048576,2);
-        $data['dataVolumeRemainingToday']=25-round($fetch_data['data_used_today']/1048576,2);
-        $data['totalStorageUsed']=round($fetch_data['storage_used']/1048576,2);
-        $data['totalStorageRemaining']=10-round($fetch_data['storage_used']/1048576,2);
+        $data['dataVolumeUsedToday']= abs(round($fetch_data['data_used_today']/1048576,2));
+        $data['dataVolumeRemainingToday']=abs(25-round($fetch_data['data_used_today']/1048576,2));
+        $data['totalStorageUsed']=abs(round($fetch_data['storage_used']/1048576,2));
+        $data['totalStorageRemaining']=abs(10-round($fetch_data['storage_used']/1048576,2));
 
         $this->load->view('photo_index', $data);
     }
@@ -149,10 +149,10 @@ class photoController extends CI_Controller
         $data["gallery"] = $this->photoModel->userAllImages($email);
         $fetch_data=$this->photoModel->userInfo($email);
 
-        $data['volumeUsed']= round($fetch_data['data_used_today']/1048576,2);
-        $data['volumeRemaining']=25-round($fetch_data['data_used_today']/1048576,2);
-        $data['dataUsed']=round($fetch_data['storage_used']/1048576,2);
-        $data['dataRemaining']=10-round($fetch_data['storage_used']/1048576,2);
+        $data['volumeUsed']= abs(round($fetch_data['data_used_today']/1048576,2));
+        $data['volumeRemaining']=abs(25-round($fetch_data['data_used_today']/1048576,2));
+        $data['dataUsed']=abs(round($fetch_data['storage_used']/1048576,2));
+        $data['dataRemaining']=abs(10-round($fetch_data['storage_used']/1048576,2));
 
         $eror = $this->session->flashdata('error');
         $data['errors'] = $eror;
