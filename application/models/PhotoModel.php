@@ -1,6 +1,6 @@
 <?php
 
-class photoModel extends CI_Model
+class PhotoModel extends CI_Model
 {
 
     function isAlreadyExsistUser()                  //For Checking during signup that this username has already created account already or not
