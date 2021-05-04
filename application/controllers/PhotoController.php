@@ -2,7 +2,7 @@
 
 use PHPMailer\PHPMailer\PHPMailer;      //For Email sending
 
-class photoController extends CI_Controller
+class PhotoController extends CI_Controller
 {
 
     function __construct()
