@@ -186,6 +186,9 @@ class PhotoController extends CI_Controller
                         $_FILES['file']['tmp_name'] = $_FILES['images']['tmp_name'][$i];
                         $_FILES['file']['error']    = $_FILES['images']['error'][$i];
                         $_FILES['file']['size']     = $_FILES['images']['size'][$i];
+
+                        $path = $_FILES['images']['tmp_name'][$i];          //S3
+                        $image_name = $_FILES['images']['name'][$i];        //S3
         //filesize
                         $size=$_FILES['images']['size'][$i];
 
@@ -199,17 +202,46 @@ class PhotoController extends CI_Controller
                         $this->upload->initialize($config);
 
                         // Upload file to server
-                        if($this->upload->do_upload('file')){
-                            // Uploaded file data
-                            $fileData = $this->upload->data();
+//                        if($this->upload->do_upload('file')){
+//                            // Uploaded file data
+//                            $fileData = $this->upload->data();
+//
+//                            $uploadData[$i]['image_path'] = $fileData['file_name'];
+//                            $uploadData[$i]['user_id'] = $fetch_data['id'];
+//                            $uploadData[$i]['size'] = $size;
+//        //                    $uploadData[$i]['uploaded_on'] = date("Y-m-d H:i:s");
+//                        }else{
+//        //                    $errorUpload .= $fileImages[$key].'('.$this->upload->display_errors('', '').') | ';
+//                        }
 
-                            $uploadData[$i]['image_path'] = $fileData['file_name'];
-                            $uploadData[$i]['user_id'] = $fetch_data['id'];
-                            $uploadData[$i]['size'] = $size;
-        //                    $uploadData[$i]['uploaded_on'] = date("Y-m-d H:i:s");
-                        }else{
-        //                    $errorUpload .= $fileImages[$key].'('.$this->upload->display_errors('', '').') | ';
-                        }
+//                        $s3_bucket = $this->s3_bucket_upload($path,$image_name);
+//                        if($s3_bucket['message']=="sucess"){
+//                            $data['imagename'] =$s3_bucket['imagepath'];
+//                            $data['imagepath'] =$s3_bucket['imagename'];
+//
+//
+//                        $uploadData[$i]['image_path'] = $data['imagepath'];
+//                        $uploadData[$i]['user_id'] = $fetch_data['id'];
+//                        $uploadData[$i]['size'] = $size;
+//                        }
+
+
+
+//Upload Image via s3 library
+                        // Load Library
+                        $this->load->library('s3_upload');
+
+                        // Upload file
+                        $sample_file = $image_name;
+                        $file_url = $this->s3_upload->upload_file($_FILES['images']['tmp_name'][$i]);
+
+//                        var_dump($file_url);
+                        // string(56) "https://bucket-name.s3.amazonaws.com/files/apple-561.gif"
+
+                        // For DB
+                        $uploadData[$i]['image_path'] = $file_url;
+                        $uploadData[$i]['user_id'] = $fetch_data['id'];
+                        $uploadData[$i]['size'] = $size;
                     }
 
                     // File upload error message
@@ -235,6 +267,9 @@ class PhotoController extends CI_Controller
 
     }
 
+    /**
+     *
+     */
     public function deleteImage(){
         $ID=$this->uri->segment(3);                          //Getting Key from URL
         $email=$this->session->userdata('email');
@@ -248,8 +283,13 @@ class PhotoController extends CI_Controller
 
             if($delete){
                 // Remove files from the server
-                @unlink('uploads/images/'.$imgData['image_path']);
+//                @unlink('uploads/images/'.$imgData['image_path']);
                 $this->photoModel->decreaseStorage($email, $imgData['size']);
+
+                $this->load->library('s3');
+
+                $this->s3->deleteObject('mtalhabuckets',$imgData['image_path']);
+
             }
         redirect(base_url('index.php/photoController/userAllImages'));
     }
@@ -270,14 +310,93 @@ class PhotoController extends CI_Controller
 
             if($delete){
                 // Remove files from the server
-                @unlink('uploads/images/'.$img['image_path']);
+//                @unlink('uploads/images/'.$img['image_path']);
                 $this->photoModel->decreaseStorage($email, $img['size']);
+
+                $this->load->library('s3');
+
+                $this->s3->deleteObject('mtalhabuckets',$img['image_path']);
             }
         }
 
         redirect(base_url('index.php/photoController/userAllImages'));
     }
 
+
+
+    public function s3_bucket_upload($temppath,$image_path){
+        $bucket = "mtalhabucket";
+
+        $data =array();
+
+        $data['message'] =  "false";
+
+
+// For website only
+//        if($site=="web"){
+//            if($type=="image"){
+//
+//                $file_Path = compress($temppath,$image_path,90);
+//
+//            }else{
+                $file_Path =$temppath;
+//            }
+//        }
+
+        try{
+            $s3Client = array(
+                'version' => 'latest',
+                'region' => 'us-west-2',
+                'credentials' => array(
+                    'key' => 'AKIARYPR7ROPECFTIPMY',
+                    'secret' => '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',
+                ),
+            );
+
+//            $s3Client = new S3Client([
+//                'version'     => 'latest',
+//                'region'      => 'us-west-2',
+//                'credentials' => [
+//                    'key'    => 'AKIARYPR7ROPECFTIPMY',
+//                    'secret' => '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',
+//                ],
+//            ]);
+
+// For website only
+//            if($site=="web"){
+//
+//                $result = $s3Client->putObject([
+//                    'Bucket'     => $bucket,
+//                    'Key'        => $image_path,
+//                    'SourceFile' => $file_Path,
+////'body'=> $file_Path,
+//                    'ACL'          => 'public-read',
+////'StorageClass' => 'REDUCED_REDUNDANCY',
+//                ]);
+//
+//                $data['message']  = "sucess";
+//                $data['imagename']  = $image_path;
+//                $data['imagepath']  = $result['ObjectURL'];
+//            }else{
+
+// $tmp = base64_decode($base64);
+                $upload = $s3Client->upload($bucket, $image_path, $temppath, 'public-read');
+                $data['message']  = "sucess";
+                $data['imagepath']  = $upload->get('ObjectURL');
+
+
+//            }
+
+
+        } catch (Exception $e) {
+            $data['message'] =  "false";
+// echo $e->getMessage() . "\n";
+        }
+
+
+
+        return $data;
+    }
 }
 
 ?>

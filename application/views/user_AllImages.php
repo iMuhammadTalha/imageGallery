@@ -142,7 +142,7 @@
                                     <?php foreach($gallery->result() as $imgRow){ ?>
 
                                         <div class="card" id="imgb_<?php echo $imgRow->id; ?>">
-                                            <img src="<?php echo base_url('uploads/images/'.$imgRow->image_path); ?>" style="width: 90%" >
+                                            <img src="<?php echo $imgRow->image_path; ?>" style="width: 90%" >
                                             <div class="container">
 <!--                                                <a href="javascript:void(0);" class="badge badge-danger" onclick="deleteImage('<?php //echo $imgRow->id; ?>//')">delete</a>
 -->
