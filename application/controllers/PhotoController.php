@@ -38,6 +38,21 @@ class PhotoController extends CI_Controller
                 $fetch_data=$this->photoModel->userInfo($email);
 
 
+                $this->load->helper('file');
+                $date = date('d-m-y h:i:s');
+
+                $ipAddress = $this->input->ip_address();
+                $logData = 'IP Address'.$ipAddress.', Date Time= '.$date.' , Email= '.$email.' , Logged in application '."\n";
+                if ( ! write_file('./log.txt', $logData, 'a'))
+                {
+//            log_message('debug',print_r('no'), TRUE);
+                }
+                else
+                {
+//           log_message('debug',print_r($date), TRUE);
+                }
+
+
                 $session_data=array(
                     'email'=>$email,
                     'UserName'=>$fetch_data['username']
@@ -201,29 +216,19 @@ class PhotoController extends CI_Controller
                         $this->load->library('upload', $config);
                         $this->upload->initialize($config);
 
-                        // Upload file to server
-//                        if($this->upload->do_upload('file')){
-//                            // Uploaded file data
-//                            $fileData = $this->upload->data();
-//
-//                            $uploadData[$i]['image_path'] = $fileData['file_name'];
-//                            $uploadData[$i]['user_id'] = $fetch_data['id'];
-//                            $uploadData[$i]['size'] = $size;
-//        //                    $uploadData[$i]['uploaded_on'] = date("Y-m-d H:i:s");
-//                        }else{
-//        //                    $errorUpload .= $fileImages[$key].'('.$this->upload->display_errors('', '').') | ';
-//                        }
+                        $this->load->helper('file');
+                        $date = date('d-m-y h:i:s');
 
-//                        $s3_bucket = $this->s3_bucket_upload($path,$image_name);
-//                        if($s3_bucket['message']=="sucess"){
-//                            $data['imagename'] =$s3_bucket['imagepath'];
-//                            $data['imagepath'] =$s3_bucket['imagename'];
-//
-//
-//                        $uploadData[$i]['image_path'] = $data['imagepath'];
-//                        $uploadData[$i]['user_id'] = $fetch_data['id'];
-//                        $uploadData[$i]['size'] = $size;
-//                        }
+                        $ipAddress = $this->input->ip_address();
+                        $logData = 'IP Address'.$ipAddress.', Date Time= '.$date.' , Email= '.$email.' , Uploaded image '."\n";
+                        if ( ! write_file('./log.txt', $logData, 'a'))
+                        {
+//            log_message('debug',print_r('no'), TRUE);
+                        }
+                        else
+                        {
+//           log_message('debug',print_r($date), TRUE);
+                        }
 
 
 
@@ -290,6 +295,19 @@ class PhotoController extends CI_Controller
 
                 $this->s3->deleteObject('mtalhabuckets',$imgData['image_path']);
 
+                $this->load->helper('file');
+                $date = date('d-m-y h:i:s');
+
+                $ipAddress = $this->input->ip_address();
+                $logData = 'IP Address'.$ipAddress.', Date Time= '.$date.' , Email= '.$email.' , Deleted image '."\n";
+                if ( ! write_file('./log.txt', $logData, 'a'))
+                {
+//            log_message('debug',print_r('no'), TRUE);
+                }
+                else
+                {
+//           log_message('debug',print_r($date), TRUE);
+                }
             }
         redirect(base_url('index.php/photoController/userAllImages'));
     }
@@ -316,6 +334,20 @@ class PhotoController extends CI_Controller
                 $this->load->library('s3');
 
                 $this->s3->deleteObject('mtalhabuckets',$img['image_path']);
+
+                $this->load->helper('file');
+                $date = date('d-m-y h:i:s');
+
+                $ipAddress = $this->input->ip_address();
+                $logData = 'IP Address'.$ipAddress.', Date Time= '.$date.' , Email= '.$email.' , Deleted image '."\n";
+                if ( ! write_file('./log.txt', $logData, 'a'))
+                {
+//            log_message('debug',print_r('no'), TRUE);
+                }
+                else
+                {
+//           log_message('debug',print_r($date), TRUE);
+                }
             }
         }
 
