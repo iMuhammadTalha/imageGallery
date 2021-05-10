@@ -234,11 +234,11 @@ class PhotoController extends CI_Controller
 
 //Upload Image via s3 library
                         // Load Library
-                        $this->load->library('s3_upload');
+                        $this->load->library('S3_upload');
 
                         // Upload file
                         $sample_file = $image_name;
-                        $file_url = $this->s3_upload->upload_file($_FILES['images']['tmp_name'][$i]);
+                        $file_url = $this->S3_upload->upload_file($_FILES['images']['tmp_name'][$i]);
 
 //                        var_dump($file_url);
                         // string(56) "https://bucket-name.s3.amazonaws.com/files/apple-561.gif"
@@ -291,9 +291,9 @@ class PhotoController extends CI_Controller
 //                @unlink('uploads/images/'.$imgData['image_path']);
                 $this->photoModel->decreaseStorage($email, $imgData['size']);
 
-                $this->load->library('s3');
+                $this->load->library('S3');
 
-                $this->s3->deleteObject('mtalhabuckets',$imgData['image_path']);
+                $this->S3->deleteObject('mtalhabuckets',$imgData['image_path']);
 
                 $this->load->helper('file');
                 $date = date('d-m-y h:i:s');
@@ -331,9 +331,9 @@ class PhotoController extends CI_Controller
 //                @unlink('uploads/images/'.$img['image_path']);
                 $this->photoModel->decreaseStorage($email, $img['size']);
 
-                $this->load->library('s3');
+                $this->load->library('S3');
 
-                $this->s3->deleteObject('mtalhabuckets',$img['image_path']);
+                $this->S3->deleteObject('mtalhabuckets',$img['image_path']);
 
                 $this->load->helper('file');
                 $date = date('d-m-y h:i:s');

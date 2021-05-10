@@ -10,10 +10,10 @@ class S3_upload {
     function __construct()
     {
         $this->CI =& get_instance();
-        $this->CI->load->library('s3');
+        $this->CI->load->library('S3');
 
-        $this->CI->config->load('s3', TRUE);
-        $s3_config = $this->CI->config->item('s3');
+        $this->CI->config->load('S3', TRUE);
+        $s3_config = $this->CI->config->item('S3');
         $this->bucket_name = $s3_config['bucket_name'];
         $this->folder_name = $s3_config['folder_name'];
         $this->s3_url = $s3_config['s3_url'];
@@ -26,7 +26,7 @@ class S3_upload {
         $s3_file = $file['filename'].'-'.rand(1000,1).'.'.$file['extension'];
         $mime_type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $file_path);
 //$mime_type=null;
-        $saved = $this->CI->s3->putObjectFile(
+        $saved = $this->CI->S3->putObjectFile(
             $file_path,
             $this->bucket_name,
             $this->folder_name.$s3_file,
