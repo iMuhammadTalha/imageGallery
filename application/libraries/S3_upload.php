@@ -23,7 +23,7 @@ class S3_upload {
     {
         // generate unique filename
         $file = pathinfo($file_path);
-        $s3_file = $file['filename'].'-'.rand(1000,1).'.'.$file['extension'];
+        $s3_file = $file['filename'].'-'.rand(1000,1);          //        $s3_file = $file['filename'].'-'.rand(1000,1).' .'.$file['extension'];
         $mime_type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $file_path);
 //$mime_type=null;
         $saved = $this->CI->s3->putObjectFile(
