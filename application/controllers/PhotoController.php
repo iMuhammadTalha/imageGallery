@@ -204,7 +204,7 @@ class PhotoController extends CI_Controller
 
                         $path = $_FILES['images']['tmp_name'][$i];          //S3
                         $image_name = $_FILES['images']['name'][$i];        //S3
-        //filesize
+        //filesizes
                         $size=$_FILES['images']['size'][$i];
 
                         // File upload configuration
