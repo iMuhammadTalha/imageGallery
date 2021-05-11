@@ -14,9 +14,9 @@ class S3_upload {
 
         $this->CI->config->load('s3');      // 's3', TRUE
         $s3_config = $this->CI->config->item('s3');
-        $this->bucket_name = $s3_config['bucket_name'];
-        $this->folder_name = $s3_config['folder_name'];
-        $this->s3_url = $s3_config['s3_url'];
+        $this->bucket_name = 'mtalhabuckets';    //$s3_config['bucket_name'];
+        $this->folder_name = 'files/';    //$s3_config['folder_name'];
+        $this->s3_url = 'https://s3.amazonaws.com/';    //$s3_config['s3_url'];
     }
 
     function upload_file($file_path)
