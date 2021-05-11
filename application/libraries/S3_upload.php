@@ -12,7 +12,7 @@ class S3_upload {
         $this->CI =& get_instance();
         $this->CI->load->library('s3');
 
-        $this->CI->config->load('s3', TRUE);
+        $this->CI->config->load('s3');      // 's3', TRUE
         $s3_config = $this->CI->config->item('s3');
         $this->bucket_name = $s3_config['bucket_name'];
         $this->folder_name = $s3_config['folder_name'];
