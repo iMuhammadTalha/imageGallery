@@ -1448,7 +1448,7 @@ final class S3Request {
         }
 
         // Execute, grab errors
-        if (curl_exec($curl))
+        if (curl_exec(&$curl))
             $this->response->code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         else
             $this->response->error = array(
